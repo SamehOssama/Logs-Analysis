@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 import psycopg2
 
-db = psycopg2.connect("dbname=news")
+try:
+    db = psycopg2.connect("dbname=news")
+except psycopg2.Error as e:
+    print("Unable to connect to the database")
+    print(e.pgerror)
+    print(e.diag.message_detail)
+    sys.exit(1)
+
 c = db.cursor()
 
 c.execute("""create view mostpop as
